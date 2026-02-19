@@ -1,6 +1,7 @@
 from src.decoding.greedy import greedy_decode
 from src.decoding.kv_cache import kv_cache_decode
-from src.decoding.speculative import speculative_decode
+from src.decoding.speculative_naive import speculative_decode
+from src.decoding.speculative_kv import speculative_decode_kv
 
 class InferenceEngine:
     """
@@ -39,4 +40,14 @@ class InferenceEngine:
             self.draft_tokenizer,
             prompt
         )
+    # ---- Speculative Decoding with kv cache ----
+    def generate_speculative_kv(self, prompt):
+        return speculative_decode_kv(
+            self.model,
+            self.tokenizer,
+            self.draft_model,
+            self.draft_tokenizer,
+            prompt
+        )
+
 

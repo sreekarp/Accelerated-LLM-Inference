@@ -16,7 +16,8 @@ while True:
     print("\nChoose decoding mode:")
     print("1 — Greedy (baseline)")
     print("2 — KV Cache (optimized)")
-    print("3 — Speculative (coming later)")
+    print("3 — Speculative Naive")
+    print("4 — Speculative decoding with kv cache")
 
     mode = input("Enter choice: ")
 
@@ -37,6 +38,9 @@ while True:
 
     elif mode == "3":
         text, latency = engine.generate_speculative(prompt)
+    
+    elif mode == "4":
+        text, latency = engine.generate_speculative_kv(prompt)
 
     else:
         print("Invalid choice.")
