@@ -44,8 +44,8 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 import torch
 import os
 
-TARGET_MODEL = "Qwen/Qwen2.5-1.5B-Instruct"
-TARGET_DIR = "./models_store/qwen_target"
+TARGET_MODEL = "Qwen/Qwen2.5-7B-Instruct"
+TARGET_DIR = "./models_store/qwen_target_7B"
 
 DRAFT_MODEL = "Qwen/Qwen2.5-0.5B-Instruct"
 DRAFT_DIR = "./models_store/qwen_draft"
@@ -59,18 +59,19 @@ def load_target_model():
         cache_dir=TARGET_DIR
     )
 
-    quant_config = BitsAndBytesConfig(
-        load_in_4bit=True,
-        bnb_4bit_compute_dtype=torch.float16,
-        bnb_4bit_use_double_quant=True,
-        bnb_4bit_quant_type="nf4"
-    )
+    # quant_config = BitsAndBytesConfig(
+    #     load_in_4bit=True,
+    #     bnb_4bit_compute_dtype=torch.float16,
+    #     bnb_4bit_use_double_quant=True,
+    #     bnb_4bit_quant_type="nf4"
+    # )
 
     model = AutoModelForCausalLM.from_pretrained(
         TARGET_MODEL,
         cache_dir=TARGET_DIR,            # ⭐ FIX
         device_map="auto",
-        quantization_config=quant_config
+        # quantization_config=quant_config
+        torch_dtype=torch.float16
     )
 
     model.eval()
